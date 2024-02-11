@@ -3,6 +3,17 @@ require('dotenv').config();
 const express = require("express"); 
 const TelegramBot = require('node-telegram-bot-api');
 
+const app = express(); 
+
+app.get("/", (req, res) => { 
+    res.send("Express on Vercel"); 
+}); 
+
+const PORT = process.env.PORT || 3000; 
+const server = app.listen(PORT, () => { 
+    console.log(`Server is running on port ${PORT}`); 
+});
+
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
 const bot = new TelegramBot(token, {polling: true});
@@ -21,18 +32,6 @@ bot.on('message', async (msg) => {
         });
     }
 });
-
-const app = express(); 
-
-app.get("/", (req, res) => { 
-    res.send("Express on Vercel"); 
-}); 
-
-const PORT = process.env.PORT || 3000; 
-app.listen(PORT, () => { 
-    console.log(`Server is running on port ${PORT}`); 
-});
-
 
 // Matches "/echo [whatever]"
 bot.onText(/\/echo (.+)/, (msg, match) => {
