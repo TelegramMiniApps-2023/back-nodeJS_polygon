@@ -9,11 +9,6 @@ app.get("/", (req, res) => {
     res.send("Express on Vercel"); 
 }); 
 
-const PORT = process.env.PORT || 5000; 
-const server = app.listen(PORT, () => { 
-    console.log(`Server is running on port ${PORT}`); 
-});
-
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
 const bot = new TelegramBot(token, {polling: true});
@@ -40,4 +35,9 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
 
     
     bot.sendMessage(chatId, resp);
+});
+
+const PORT = process.env.PORT || 3000; 
+const server = app.listen(PORT, () => { 
+    console.log(`Server is running on port ${PORT}`); 
 });
