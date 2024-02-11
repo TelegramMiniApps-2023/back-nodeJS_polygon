@@ -1,1 +1,2 @@
-# back-nodeJS_polygon
+# NODE.js polygon for TG API experiments
+The project aims to create a testing ground for experimenting with Telegram API functionalities using a NODE.js backend. By providing a sandbox environment, developers can explore and test various features and interactions offered by the Telegram API within a controlled and customizable setup. This platform will facilitate the development and refinement of applications leveraging Telegram's capabilities, enabling seamless integration and innovative solutions.
