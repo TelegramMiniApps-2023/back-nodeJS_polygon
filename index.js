@@ -35,14 +35,14 @@ bot.on("message", async (msg) => {
 });
 
 // Matches "/echo [whatever]"
-// bot.onText(/\/echo (.+)/, (msg, match) => {
-//   const chatId = msg.chat.id;
-//   const resp = match[1];
+bot.onText(/\/echo (.+)/, (msg, match) => {
+  const chatId = msg.chat.id;
+  const resp = match[1];
 
-//   bot.sendMessage(chatId, resp);
-// });
+  bot.sendMessage(chatId, resp);
+});
 
-// const PORT = process.env.PORT || 3000;
-// const server = app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
