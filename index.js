@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
-const bot = new TelegramBot(token);
+const bot = new TelegramBot(token, { polling: true });
 
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
@@ -40,16 +40,7 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
   bot.sendMessage(chatId, resp);
 });
 
-// const PORT = 3000;
-// const server = app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
-// const webhookUrl = "https://back-node-js-polygon.vercel.app/";
-// bot.setWebHook(webhookUrl);
-
-//prod mode (Vercel)
-const startVercel = async (req, res) => {
-  await production(req, res, bot);
-};
-
-startVercel(req, res);
+const PORT = 3000;
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
