@@ -1,16 +1,30 @@
 require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(bodyParser.json());
+
+const token = process.env.TELEGRAM_BOT_TOKEN;
+const webAppUrl = process.env.WEB_APP_URL;
+const webhookPath = "/api";
+
+const bot = new TelegramBot(token);
+const webhookUrl = `https://back-node-js-polygon.vercel.app${webhookPath}`;
+bot.setWebHook(webhookUrl);
+
+app.post(webhookPath, (req, res) => {
+  const updates = req.body;
+  bot.processUpdate(updates);
+  res.sendStatus(200);
+});
 
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
-
-const token = process.env.TELEGRAM_BOT_TOKEN;
-const webAppUrl = process.env.WEB_APP_URL;
-const bot = new TelegramBot(token, { polling: true });
 
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
@@ -24,23 +38,9 @@ bot.on("message", async (msg) => {
         ],
       },
     });
-    // await bot.sendMessage(chatId, "💱 Нижняя кнопка (keyboard) 💵", {
-    //   reply_markup: {
-    //     keyboard: [[{ text: "Open web app", web_app: { url: webAppUrl } }]],
-    //   },
-    // });
   }
 });
 
-// Matches "/echo [whatever]"
-bot.onText(/\/echo (.+)/, (msg, match) => {
-  const chatId = msg.chat.id;
-  const resp = match[1];
-
-  bot.sendMessage(chatId, resp);
-});
-
-const PORT = 3000;
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
