@@ -27,9 +27,12 @@ app.get("/", (req, res) => {
 });
 
 app.get("/env", (req, res) => {
-  res.send(PORT);
-  res.send(webAppUrl);
-  res.send(token);
+  const environmentData = {
+    port: PORT,
+    webAppUrl: webAppUrl,
+    telegramBotToken: token,
+  };
+  res.json(environmentData);
 });
 
 bot.on("message", async (msg) => {
