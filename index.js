@@ -1,25 +1,24 @@
 require("dotenv").config();
 const express = require("express");
-const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 
 const app = express();
 const PORT = 3000;
-app.use(bodyParser.json());
+app.use(express.json());
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
 const domenUrl = process.env.VERCEL_URL;
 const webhookPath = "/api";
-const webhookUrl = `${domenUrl}${webhookPath}`;
+const webhookUrl = domenUrl + webhookPath;
 
-const bot = new TelegramBot(token);
-bot.setWebHook(webhookUrl);
+const bot = new TelegramBot(token, { polling: true });
+// bot.setWebHook(webhookUrl);
 
-app.post(webhookPath, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
+// app.post(webhookPath, (req, res) => {
+//   bot.processUpdate(req.body);
+//   res.sendStatus(200);
+// });
 
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
