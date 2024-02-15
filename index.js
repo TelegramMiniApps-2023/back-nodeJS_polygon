@@ -35,6 +35,11 @@ app.get("/env", (req, res) => {
   res.json(environmentData);
 });
 
+app.get("/webhook", (req, res) => {
+  const webhookInfo = bot.getWebHookInfo();
+  res.json(webhookInfo);
+});
+
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
