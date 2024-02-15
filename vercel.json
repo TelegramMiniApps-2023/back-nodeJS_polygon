@@ -1,18 +1,14 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "index.js",
-      "use": "@now/node",
-      "config": { "maxLambdaSize": "512mb" },
-      "functions": { "api/**/*.js": { "memory": 512 } },
-      "npm": { "ignoreScripts": false }
-    }
+    { "src": "index.js", "use": "@now/node" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "index.js"
+    { "src": "/(.*)", "dest": "index.js" }
+  ],
+  "build": {
+    "hooks": {
+      "prebuild": "npm install"
     }
-  ]
+  }
 }
