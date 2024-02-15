@@ -13,14 +13,14 @@ const webAppUrl = process.env.WEB_APP_URL;
 const webhookPath = "/api";
 
 const bot = new TelegramBot(token, { polling: true });
-// const webhookUrl = process.env.VERCEL_URL + webhookPath;
-// bot.setWebHook(webhookUrl);
+const webhookUrl = process.env.VERCEL_URL + webhookPath;
+bot.setWebHook(webhookUrl);
 
-// app.post(webhookPath, (req, res) => {
-//   const updates = req.body;
-//   bot.processUpdate(updates);
-//   res.sendStatus(200);
-// });
+app.post(webhookPath, (req, res) => {
+  const updates = req.body;
+  bot.processUpdate(updates);
+  res.sendStatus(200);
+});
 
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
