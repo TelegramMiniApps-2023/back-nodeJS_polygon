@@ -1,11 +1,16 @@
-require("dotenv").config();
+// require("dotenv").config();
 const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 
-const token = process.env.TELEGRAM_BOT_TOKEN;
+const token =
+  process.env.TELEGRAM_BOT_TOKEN ||
+  "6535957543:AAGkV7apKX9mp_EdjyEfW5i6Fla3sh24nFo";
 const PORT = 3000;
-const webAppUrl = process.env.WEB_APP_URL;
-const domenUrl = process.env.VERCEL_URL;
+const webAppUrl =
+  process.env.WEB_APP_URL ||
+  "https://bestexchange-front-pattern-git-dev-tapps-team.vercel.app";
+const domenUrl =
+  process.env.VERCEL_URL || "https://back-node-js-polygon.vercel.app";
 const webhookPath = "/api";
 const webhookUrl = `${domenUrl}${webhookPath}`;
 
