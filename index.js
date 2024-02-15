@@ -12,7 +12,7 @@ const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
 const webhookPath = "/api";
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token);
 const webhookUrl = process.env.VERCEL_URL + webhookPath;
 bot.setWebHook(webhookUrl);
 
