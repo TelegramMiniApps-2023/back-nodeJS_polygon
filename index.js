@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 app.use(bodyParser.json());
 
@@ -13,7 +13,7 @@ const webAppUrl = process.env.WEB_APP_URL;
 const webhookPath = "/api";
 
 const bot = new TelegramBot(token);
-const webhookUrl = process.env.VERCEL_URL$ + webhookPath;
+const webhookUrl = process.env.VERCEL_URL + webhookPath;
 bot.setWebHook(webhookUrl);
 
 app.post(webhookPath, (req, res) => {
@@ -24,6 +24,12 @@ app.post(webhookPath, (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
+});
+
+app.get("/env", (req, res) => {
+  res.send(PORT);
+  res.send(webAppUrl);
+  res.send(token);
 });
 
 bot.on("message", async (msg) => {
@@ -41,11 +47,11 @@ bot.on("message", async (msg) => {
     });
   }
 
-  if (text == "pin") {
-    await bot.pinChatMessage(chatId, msg.message_id, {
-      disable_notification: true,
-    });
-  }
+  // if (text == "pin") {
+  //   await bot.pinChatMessage(chatId, msg.message_id, {
+  //     disable_notification: true,
+  //   });
+  // }
 
   // if (text == "/start@abdsh_test_bot") {
   //   await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
