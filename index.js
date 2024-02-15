@@ -9,16 +9,17 @@ app.use(express.json());
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
 const domenUrl = process.env.VERCEL_URL;
+// const domenUrl = "https://3665-213-230-114-32.ngrok-free.app";
 const webhookPath = "/api";
 const webhookUrl = domenUrl + webhookPath;
 
-const bot = new TelegramBot(token, { polling: true });
-// bot.setWebHook(webhookUrl);
+const bot = new TelegramBot(token);
+bot.setWebHook(webhookUrl);
 
-// app.post(webhookPath, (req, res) => {
-//   bot.processUpdate(req.body);
-//   res.sendStatus(200);
-// });
+app.post(webhookPath, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
 
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
