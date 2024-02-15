@@ -3,22 +3,18 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 
-const app = express();
-const PORT = 3000;
-
-app.use(bodyParser.json());
-
 const token = process.env.TELEGRAM_BOT_TOKEN;
+const PORT = 3000;
 const webAppUrl = process.env.WEB_APP_URL;
-const webhookPath = "/api";
+const domenUrl = process.env.VERCEL_URL;
 
 const bot = new TelegramBot(token);
-const webhookUrl = process.env.VERCEL_URL + webhookPath;
-bot.setWebHook(webhookUrl);
+bot.setWebHook(`${domenUrl}/bot${token}`);
+const app = express();
+app.use(express.json());
 
-app.post(webhookPath, (req, res) => {
-  const updates = req.body;
-  bot.processUpdate(updates);
+app.post(`/bot${token}`, (req, res) => {
+  bot.processUpdate(req.body);
   res.sendStatus(200);
 });
 
