@@ -105,11 +105,7 @@ require("dotenv").config();
 const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 
-const app = express();
 const PORT = 3000;
-
-app.use(express.json());
-
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
 const domenUrl = process.env.VERCEL_URL;
@@ -118,6 +114,9 @@ const webhookUrl = domenUrl + webhookPath;
 
 const bot = new TelegramBot(token);
 bot.setWebHook(webhookUrl);
+
+const app = express();
+app.use(express.json());
 
 app.post(webhookPath, (req, res) => {
   bot.processUpdate(req.body);
@@ -131,17 +130,14 @@ app.get("/", (req, res) => {
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
-  console.log(msg);
 
-  if (text == "/start") {
-    await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "Open web app", web_app: { url: webAppUrl } }],
-        ],
-      },
-    });
-  }
+  await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: "Open web app", web_app: { url: webAppUrl } }],
+      ],
+    },
+  });
 });
 
 app.listen(PORT, () => {
