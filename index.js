@@ -131,7 +131,6 @@ app.get("/", (req, res) => {
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
-  const inline_query_id = msg.inline_query_id;
   console.log(msg);
 
   if (text == "/start") {
@@ -143,39 +142,6 @@ bot.on("message", async (msg) => {
       },
     });
   }
-
-  // if (text == "pin") {
-  //   await bot.pinChatMessage(chatId, msg.message_id, {
-  //     disable_notification: true,
-  //   });
-  // }
-
-  // if (text == "/start@abdsh_test_bot") {
-  //   await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
-  //     reply_markup: {
-  //       inline_keyboard: [[{ text: "Open web app" }]],
-  //     },
-  //   });
-  // }
-});
-
-bot.on("inline_query", async (msg) => {
-  console.log(msg);
-  const results = [
-    {
-      type: "article",
-      id: "1",
-      title: "RESULT 1",
-      input_message_content: { message_text: "TEXT 1" },
-    },
-    {
-      type: "article",
-      id: "2",
-      title: "RESULT 2",
-      input_message_content: { message_text: "TEXT 2" },
-    },
-  ];
-  await bot.answerInlineQuery(msg.id, JSON.stringify(results));
 });
 
 app.listen(PORT, () => {
