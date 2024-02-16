@@ -144,52 +144,6 @@ bot.on("message", async (msg) => {
   }
 });
 
-// bot.on("message", async (msg) => {
-//   const chatId = msg?.chat?.id;
-//   const text = msg?.text;
-//   try {
-//     if (text == "/start") {
-//       await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
-//         reply_markup: {
-//           inline_keyboard: [
-//             [{ text: "Open web app", web_app: { url: webAppUrl } }],
-//           ],
-//         },
-//       });
-//     }
-//     if (text == "/start@abdsh_test_bot") {
-//       try {
-//         await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
-//           reply_markup: {
-//             inline_keyboard: [
-//               [{ text: "Open web app", web_app: { url: webAppUrl } }],
-//             ],
-//           },
-//         });
-//       } catch (error) {
-//         await bot.sendMessage(
-//           chatId,
-//           "Я пока не научился обрабатывать запрос с группы :("
-//         );
-//       }
-//     }
-//     if (text == "/start@abdsh_test_bot") {
-//       try {
-//         await bot.pinChatMessage(chatId, msg.message_id, {
-//           disable_notification: true,
-//         });
-//       } catch (error) {
-//         await bot.sendMessage(
-//           chatId,
-//           "Нужно добавить бота в администраторы группы..."
-//         );
-//       }
-//     }
-//   } catch (error) {
-//     console.error("Ошибка обработки сообщения:", error);
-//   }
-// });
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
