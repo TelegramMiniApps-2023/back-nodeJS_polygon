@@ -112,8 +112,17 @@ app.use(express.json());
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
+const domenUrl = process.env.VERCEL_URL;
+const webhookPath = "/api";
+const webhookUrl = domenUrl + webhookPath;
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token);
+bot.setWebHook(webhookUrl);
+
+app.post(webhookPath, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
 
 app.get("/", (req, res) => {
   res.send("Express on Vercel");
