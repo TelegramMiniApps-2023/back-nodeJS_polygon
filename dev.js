@@ -1,11 +1,12 @@
 require("dotenv").config();
 const express = require("express");
+const bodyParser = require("body-parser");
 const TelegramBot = require("node-telegram-bot-api");
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
@@ -17,52 +18,34 @@ app.get("/", (req, res) => {
 });
 
 bot.on("message", async (msg) => {
-  const chatId = msg?.chat?.id;
-  const text = msg?.text;
+  const chatId = msg.chat.id;
+  const text = msg.text;
+  const inline_query_id = msg.inline_query_id;
+  console.log(msg);
 
-  try {
-    if (text == "/start") {
-      await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "Open web app", web_app: { url: webAppUrl } }],
-          ],
-        },
-      });
-    }
-
-    if (text == "/start@abdsh_test_bot") {
-      try {
-        await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
-          reply_markup: {
-            inline_keyboard: [
-              [{ text: "Open web app", web_app: { url: webAppUrl } }],
-            ],
-          },
-        });
-      } catch (error) {
-        await bot.sendMessage(
-          chatId,
-          "Я пока не научился обрабатывать запрос с группы :("
-        );
-      }
-    }
-
-    if (text == "/start@abdsh_test_bot") {
-      try {
-        await bot.pinChatMessage(chatId, msg.message_id, {
-          disable_notification: true,
-        });
-      } catch (error) {
-        await bot.sendMessage(
-          chatId,
-          "Нужно добавить бота в администраторы группы..."
-        );
-      }
-    }
-  } catch (error) {
-    console.error("Ошибка обработки сообщения:", error);
+  if (text == "/start") {
+    await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: "Open web app", web_app: { url: webAppUrl } }],
+        ],
+      },
+    });
   }
+
+  // if (text == "pin") {
+  //   await bot.pinChatMessage(chatId, msg.message_id, {
+  //     disable_notification: true,
+  //   });
+  // }
+
+  // if (text == "/start@abdsh_test_bot") {
+  //   await bot.sendMessage(chatId, "💱 Кнопка под текстом (inline) 💵", {
+  //     reply_markup: {
+  //       inline_keyboard: [[{ text: "Open web app" }]],
+  //     },
+  //   });
+  // }
 });
 
 bot.on("inline_query", async (msg) => {
@@ -71,21 +54,17 @@ bot.on("inline_query", async (msg) => {
     {
       type: "article",
       id: "1",
-      title: "Какой-то текст команда №1",
-      input_message_content: { message_text: "Выполнена команда №1" },
+      title: "RESULT 1",
+      input_message_content: { message_text: "TEXT 1" },
     },
     {
       type: "article",
       id: "2",
-      title: "Какой-то текст команда №2",
-      input_message_content: { message_text: "Выполнена команда №2" },
+      title: "RESULT 2",
+      input_message_content: { message_text: "TEXT 2" },
     },
   ];
-  try {
-    await bot.answerInlineQuery(msg.id, JSON.stringify(results));
-  } catch (error) {
-    console.error("Ошибка обработки сообщения:", error);
-  }
+  await bot.answerInlineQuery(msg.id, JSON.stringify(results));
 });
 
 app.listen(PORT, () => {
